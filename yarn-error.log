@@ -1,0 +1,89 @@
+Arguments: 
+  /Users/gongxi33/.nvm/versions/node/v16.13.1/bin/node /Users/gongxi33/.nvm/versions/node/v16.13.1/bin/yarn install
+
+PATH: 
+  /Library/Frameworks/Python.framework/Versions/3.10/bin:/Users/gongxi33/miniconda3/bin:/Users/gongxi33/miniconda/bin:/Users/gongxi33/.rvm/gems/ruby-2.7.1/bin:/Users/gongxi33/.rvm/gems/ruby-2.7.1@global/bin:/Users/gongxi33/.rvm/rubies/ruby-2.7.1/bin:/Library/Frameworks/Python.framework/Versions/3.6/bin:/Library/Frameworks/Python.framework/Versions/3.6/bin:/Users/gongxi33/.nvm/versions/node/v16.13.1/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/Library/Apple/usr/bin:/Users/gongxi33/bin:/Users/gongxi33/.rvm/bin:/Library/ibiu
+
+Yarn version: 
+  1.22.17
+
+Node version: 
+  16.13.1
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: http://registry.m.jd.com/@babel%2fruntime: ETIMEDOUT
+      at Timeout._onTimeout (/Users/gongxi33/.nvm/versions/node/v16.13.1/lib/node_modules/yarn/lib/cli.js:141543:19)
+      at listOnTimeout (node:internal/timers:557:17)
+      at processTimers (node:internal/timers:500:7)
+
+npm manifest: 
+  {
+    "name": "bio",
+    "version": "1.0.0",
+    "private": true,
+    "description": "",
+    "templateInfo": {
+      "name": "default",
+      "typescript": false,
+      "css": "sass"
+    },
+    "scripts": {
+      "build:weapp": "taro build --type weapp",
+      "build:swan": "taro build --type swan",
+      "build:alipay": "taro build --type alipay",
+      "build:tt": "taro build --type tt",
+      "build:h5": "taro build --type h5",
+      "build:rn": "taro build --type rn",
+      "build:qq": "taro build --type qq",
+      "build:jd": "taro build --type jd",
+      "build:quickapp": "taro build --type quickapp",
+      "dev:weapp": "npm run build:weapp -- --watch",
+      "dev:swan": "npm run build:swan -- --watch",
+      "dev:alipay": "npm run build:alipay -- --watch",
+      "dev:tt": "npm run build:tt -- --watch",
+      "dev:h5": "npm run build:h5 -- --watch",
+      "dev:rn": "npm run build:rn -- --watch",
+      "dev:qq": "npm run build:qq -- --watch",
+      "dev:jd": "npm run build:jd -- --watch",
+      "dev:quickapp": "npm run build:quickapp -- --watch"
+    },
+    "browserslist": [
+      "last 3 versions",
+      "Android >= 4.1",
+      "ios >= 8"
+    ],
+    "author": "",
+    "dependencies": {
+      "@babel/runtime": "^7.7.7",
+      "@tarojs/components": "3.4.8",
+      "@tarojs/runtime": "3.4.8",
+      "@tarojs/taro": "3.4.8",
+      "@tarojs/plugin-framework-react": "3.4.8",
+      "@tarojs/react": "3.4.8",
+      "react-dom": "^17.0.0",
+      "react": "^17.0.0"
+    },
+    "devDependencies": {
+      "@types/webpack-env": "^1.13.6",
+      "@types/react": "^17.0.2",
+      "@tarojs/mini-runner": "3.4.8",
+      "@babel/core": "^7.8.0",
+      "@tarojs/webpack-runner": "3.4.8",
+      "babel-preset-taro": "3.4.8",
+      "eslint-config-taro": "3.4.8",
+      "eslint": "^8.12.0",
+      "eslint-plugin-react": "^7.8.2",
+      "eslint-plugin-import": "^2.12.0",
+      "eslint-plugin-react-hooks": "^4.2.0",
+      "stylelint": "^14.4.0"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
