@@ -1,3 +1,11 @@
+/*
+ * @Author: gongxi33
+ * @Date: 2022-04-30 10:38:17
+ * @LastEditTime: 2022-04-30 13:53:58
+ * @LastEditors: gongxi33
+ * @Description:
+ * @FilePath: /bio/config/index.js
+ */
 const config = {
   projectName: 'bio',
   date: '2022-4-30',
@@ -45,6 +53,7 @@ const config = {
   h5: {
     publicPath: '/',
     staticDirectory: 'static',
+    esnextModules: ['taro-ui'],
     postcss: {
       autoprefixer: {
         enable: true,

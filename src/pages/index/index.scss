@@ -1,0 +1,20 @@
+.index{
+  width: 90vw;
+  margin: 0 auto;
+  .header{
+    font-size: 48px;
+    margin-top: 96px;
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .submitButton{
+    margin-top: 96px;
+    color: #fff;
+    border: 1PX solid #6190e8;
+    background: #6190e8;
+  }
+  .submitButtonEmpty {
+    @extend .submitButton;
+    opacity: .5;
+  }
+}
