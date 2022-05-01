@@ -4,7 +4,7 @@
         "miniprogram": {
             "list": [
                 {
-                    "name": "pages/indexindex",
+                    "name": "pages/index/index",
                     "pathName": "pages/index/index",
                     "query": "",
                     "launchMode": "default",

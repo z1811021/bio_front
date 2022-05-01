@@ -2,11 +2,16 @@
   width: 90vw;
   margin: 0 auto;
   margin-top: 24px;
-  .mine_date{
+
+  .mine_date_start {
     display: flex;
     align-items: center;
-    margin-left: 32px;
-    margin-top: 8px;
+    margin-top: -3px;
+  }
+  .mine_date_end{
+    @extend .mine_date_start;
+    margin-top: 0px;
+
   }
   .mine_search_button{
 

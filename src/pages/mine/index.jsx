@@ -51,6 +51,7 @@ export default function Index() {
   }
   return (
     <View className='mine'>
+      <AtForm>
       <AtInput
         name='order'
         title='被试编号'
@@ -59,19 +60,17 @@ export default function Index() {
         value={value}
         onChange={handleChangeVal}
       />
-      <View className='mine_date'>
-        <Text>开始日期</Text>
+      <View className='mine_date_start'>
         <Picker mode='date' onChange={onDateChange}>
           <AtList>
-            <AtListItem title='请选择日期' extraText={dateSel} />
+            <AtListItem title='请选择开始日期' extraText={dateSel} />
           </AtList>
         </Picker>
       </View>
-      <View className='mine_date'>
-        <Text>结束日期</Text>
+      <View className='mine_date_end'>
         <Picker mode='date' onChange={onDateChangeEnd}>
           <AtList>
-            <AtListItem title='请选择日期' extraText={dateSelEnd} />
+            <AtListItem title='请选择结束日期' extraText={dateSelEnd} />
           </AtList>
         </Picker>
       </View>
@@ -88,6 +87,7 @@ export default function Index() {
           <View>长直径: {item.order3.width} 短直径: {item.order3.height} 面积: {item.order3.square}</View>
         </View>)
       }))}
+      </AtForm>
     </View>
   );
 }
