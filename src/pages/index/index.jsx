@@ -1,4 +1,5 @@
 import { View, Image, Button } from '@tarojs/components'
+import Taro from '@tarojs/taro'
 import { AtForm , AtInput} from 'taro-ui'
 import  { useState, useEffect} from 'react'
 import './index.scss'
@@ -13,7 +14,12 @@ export default function Index() {
       setPassword(val)
     }
     function submit(){
-      console.log(username, password)
+      if(username && password){
+        // todo
+        Taro.navigateTo({
+          url: '/pages/home/index'
+        })
+      }
     }
     return (
       <View className='index'>

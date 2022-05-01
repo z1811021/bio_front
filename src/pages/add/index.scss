@@ -1,0 +1,89 @@
+.add {
+  width: 100vw;
+  margin: 0 auto;
+  .add_order {
+    .at-input--disabled {
+      opacity: 1;
+    }
+    font-size: 48px;
+    margin-top: 24px;
+    text-align: center;
+    margin-bottom: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .add_order_input {
+      width: 60vw;
+    }
+    .photo_button {
+      font-size: 24px;
+      width: 24vw;
+      background: #07c160;
+      color: #fff;
+      border: 1px solid #07c160;
+    }
+  }
+  .add_submit {
+    color: #fff;
+    border: 1px solid #6190e8;
+    height: 200px;
+    background: #6190e8;
+    line-height: 200px;
+    font-size: 48px;
+    width: 90vw;
+    margin: 0 auto;
+    margin-top: 192px;
+  }
+  .add_submit_empty {
+    @extend .add_submit;
+    opacity: .5;
+  }
+  .add_order_list {
+    width: 90vw;
+    margin: 0 auto;
+    margin-top: 24px;
+    .add_order_list_space{
+      margin-top: 24px;
+    }
+    .add_order_list_title_num {
+      margin-left: 48px;
+      color: gray;
+    }
+    .add_order_list_title_doctor {
+      @extend .add_order_list_title_num;
+    }
+    .add_order_list_item_content{
+      @extend .add_order_list_title_num;
+    }
+    .add_order_list_title_con {
+      margin-left: 48px;
+    }
+    .add_order_list_item {
+      display: flex;
+      align-items: center;
+    }
+    .add_order_list_button{
+      display: flex;
+      justify-content: space-around;
+      width: 80vw;
+      margin: 0 auto;
+      margin-top: 72px;
+      .add_order_list_button_back {
+        color: #fff;
+        border: 1px solid #6190e8;
+        background: #6190e8;
+        font-size: 36px;
+        height: 100px;
+        line-height:100px;
+        width: 30vw;
+      }
+      .add_order_list_button_submit {
+        @extend .add_order_list_button_back;
+        border: 1px solid #07c160;;
+        background: #07c160;;
+
+      }
+    }
+
+  }
+}

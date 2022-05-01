@@ -1,0 +1,29 @@
+.mine {
+  width: 90vw;
+  margin: 0 auto;
+  margin-top: 24px;
+  .mine_date{
+    display: flex;
+    align-items: center;
+    margin-left: 32px;
+    margin-top: 8px;
+  }
+  .mine_search_button{
+
+    width: 85vw;
+    margin: 0 auto;
+    margin-top: 32px;
+    color: #fff;
+    border: 1PX solid #6190e8;
+    background: #6190e8;
+  }
+  .mine_item_con {
+    width: 85vw;
+    margin: 0 auto;
+    margin-top: 32px;
+    background: #6190e8;
+    opacity: 0.4;
+    border-radius: 10px;
+    padding: 10px;
+  }
+}

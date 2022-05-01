@@ -1,0 +1,17 @@
+{
+    "setting": {},
+    "condition": {
+        "miniprogram": {
+            "list": [
+                {
+                    "name": "pages/indexindex",
+                    "pathName": "pages/index/index",
+                    "query": "",
+                    "launchMode": "default",
+                    "scene": null
+                }
+            ]
+        }
+    },
+    "description": "Project configuration file, more information: https://developers.weixin.qq.com/miniprogram/dev/devtools/projectconfig.html"
+}

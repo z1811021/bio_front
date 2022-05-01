@@ -1,7 +1,7 @@
 {
     "miniprogramRoot": "dist/",
     "projectname": "bio",
-    "description": "",
+    "description": "Project configuration file, more information: https://developers.weixin.qq.com/miniprogram/dev/devtools/projectconfig.html",
     "appid": "wx105c0ec0ba14780c",
     "setting": {
         "urlCheck": true,
@@ -39,8 +39,19 @@
         "disableUseStrict": false,
         "showES6CompileOption": false,
         "useCompilerPlugins": false,
-        "minifyWXML": true
+        "minifyWXML": true,
+        "useStaticServer": true
     },
     "compileType": "miniprogram",
-    "condition": {}
+    "condition": {},
+    "libVersion": "2.20.1",
+    "srcMiniprogramRoot": "dist/",
+    "packOptions": {
+        "ignore": [],
+        "include": []
+    },
+    "editorSetting": {
+        "tabIndent": "insertSpaces",
+        "tabSize": 4
+    }
 }
