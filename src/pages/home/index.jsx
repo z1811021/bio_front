@@ -10,7 +10,7 @@ export default function Index() {
     })
   }
   function gotoAdd() {
-    Taro.redirenavigateToctTo({
+    Taro.navigateTo({
       url: '/pages/add/index'
     })
   }
