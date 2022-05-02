@@ -94,6 +94,10 @@ export default function Index() {
         })
       }
     }
+    function changeVal(val){
+      console.log('🚀 ~ file: index.jsx ~ line 98 ~ changeVal ~ val', val)
+      setOrder(val)
+    }
     return (
       <View className='add'>
         <AtMessage />
@@ -105,6 +109,7 @@ export default function Index() {
               type='text'
               placeholder='请通过相机扫描'
               value={order}
+              onChange={val => changeVal(val)}
               className='add_order_input'
             />
             <Button className='photo_button' onClick={takePhoto}>拍照识别</Button>
