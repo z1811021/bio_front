@@ -101,7 +101,6 @@ export default function Index() {
           <Fragment>
             <View className='add_order'>
             <AtInput
-              editable={false}
               title='被试编号'
               type='text'
               placeholder='请通过相机扫描'
