@@ -1,11 +1,13 @@
 {
-    "setting": {},
+    "setting": {
+        "urlCheck": false
+    },
     "condition": {
         "miniprogram": {
             "list": [
                 {
-                    "name": "pages/index/index",
-                    "pathName": "pages/index/index",
+                    "name": "pages/add/index",
+                    "pathName": "pages/add/index",
                     "query": "",
                     "launchMode": "default",
                     "scene": null

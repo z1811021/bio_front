@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { View, Text, Button, Picker } from "@tarojs/components";
+import { axios } from 'taro-axios'
 import Taro from "@tarojs/taro";
 import { AtList, AtListItem, AtInput, AtMessage, AtForm } from "taro-ui";
+import { apiDomain } from '../../../config/buildConfig'
 import "./index.scss";
 
 export default function Index() {
@@ -9,6 +11,34 @@ export default function Index() {
   const [dateSelEnd, setDateSelEnd] = useState("");
   const [value, setVal] = useState('')
   const [data, setData] = useState([])
+  const [token, setToken] = useState('')
+  useEffect(()=>{
+    Taro.getBackgroundFetchToken({
+      success: res => {
+      console.log('🚀 ~ file: index.jsx ~ line 19 ~ useEffect ~ res', res)
+        if(res?.token){
+          setToken(res?.token)
+        } else {
+          Taro.atMessage({
+            'message': '请重新登录',
+            'type': 'warning',
+          })
+          Taro.navigateTo({
+            url: '/pages/index/index'
+          })
+        }
+      },
+      fail: res => {
+        Taro.atMessage({
+          'message': '请重新登录',
+          'type': 'warning',
+        })
+        Taro.navigateTo({
+          url: '/pages/index/index'
+        })
+      },
+    })
+  }, [])
   function onDateChange(val) {
     console.log("🚀 ~ file: index.jsx ~ line 10 ~ onDateChange ~ val", val);
     setDateSel(val.detail.value);
@@ -21,39 +51,31 @@ export default function Index() {
     console.log("🚀 ~ file: index.jsx ~ line 10 ~ onDateChange ~ val", val);
     setDateSelEnd(val.detail.value);
   }
-  function search(){
-      // todo
-    setData([{
-      order: 'CD21312',
-      time: '2022.4.25 17:02:32',
-      order1: {  square: '2.21 ',
-      height: '2.21 ',
-      width: '2.21 '},
-      order2:{  square: '2.21 cm',
-      height: '2.21 ',
-      width: '2.21 '},
-      order3:{  square: '2.21 cm',
-      height: '2.21 ',
-      width: '2.21 '}
-    },{
-      order: 'CD21312',
-      time: '2022.4.25 17:02:32',
-      order1: {  square: '2.21 cm',
-      height: '2.21 ',
-      width: '2.21 '},
-      order2:{  square: '2.21 cm',
-      height: '2.21 ',
-      width: '2.21 '},
-      order3:{  square: '2.21 cm',
-      height: '2.21 ',
-      width: '2.21 '}
-    }])
+  async function search(){
+    const params = {
+      scanNum: value,
+      startDate: dateSel,
+      endDate: dateSelEnd,
+      pageNum: 1,
+      pageSize: 50
+    }
+    const res = await axios.get(`${apiDomain}/scan`,{
+      params,
+      headers: {
+        authorization: token
+      }});
+    console.log('🚀 ~ file: index.jsx ~ line 58 ~ search ~ res', res)
+    if(res?.data?.code === 0) {
+      setData(res?.data?.data?.scanItem || {})
+    }
+
   }
   return (
     <View className='mine'>
+      <AtMessage />
       <AtForm>
       <AtInput
-        name='order'
+        name='scanId'
         title='被试编号'
         type='text'
         placeholder='被试编号'
@@ -80,11 +102,11 @@ export default function Index() {
       {data &&
       (data.map((item, index) => {
         return (<View className='mine_item_con' key={index}>
-          <View>被试编号: {item.order}</View>
-          <View>检测时间: {item.time}</View>
-          <View>长直径: {item.order1.width} 短直径: {item.order1.height} 面积: {item.order1.square}</View>
-          <View>长直径: {item.order2.width} 短直径: {item.order2.height} 面积: {item.order2.square}</View>
-          <View>长直径: {item.order3.width} 短直径: {item.order3.height} 面积: {item.order3.square}</View>
+          <View>被试编号: {item.scanId}</View>
+          <View>检测时间: {item.scanTime}</View>
+          {item.scanItemPic.map((item2, index2) => {
+            return <View key={index2}>长直径: {item2.length} 短直径: {item2.width} 面积: {item2.area}</View>
+          })}
         </View>)
       }))}
       </AtForm>
