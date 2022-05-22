@@ -181,20 +181,31 @@ export default function Index() {
       console.log('🚀 ~ file: index.jsx ~ line 152 ~ uploadAliCloud ~ aliData, files', aliData, pic)
       const {accessid, host, expire, signature, policy, dir, callback} = aliData
       const OSSAccessKeyId = accessid
-      const success_action_status = 200
+      const success_action_status = '200'
       const imageName =  Taro.getStorageSync('username') + Date.now() + index +'system.png'
       console.log('🚀 ~ file: index.jsx ~ line 166 ~ uploadAliCloud ~ imageName', imageName)
       const key = dir + imageName
+      const obj = {
+        'key': key,
+        'expire': expire,
+
+        'callback': callback,
+        'policy': policy,
+        'OSSAccessKeyId': OSSAccessKeyId,
+        'success_action_status': success_action_status,
+        'signature': signature,
+        // 'file': pic[index].file.path,
+      }
       try {
         const uplaodRes = await Taro.uploadFile({
-          url: host, //仅为示例，非真实的接口地址
+          url: host,
           filePath: pic[index].file.path,
           name: 'file',
-          formData: {
-            OSSAccessKeyId, expire, signature, policy, callback, key, success_action_status, file: pic[index].file.path
-          } ,
+          formData: obj,
           success (res){
             return res
+          },
+          fail(res) {
           }
         })
         if(JSON.parse(uplaodRes.data).code == 0) {
