@@ -106,7 +106,7 @@ export default function Index() {
       <View >
         <Button onClick={search} className='mine_search_button'>搜索</Button>
       </View>
-      <ScrollView scrollY lowerThreshold={100} onScrollToLower={scrollToLower} style={{height: '100vw'}}  scrollWithAnimation>
+      <ScrollView scrollY lowerThreshold={100} onScrollToLower={scrollToLower} style={{height: '125vw', marginTop: 10}}  scrollWithAnimation>
         {data &&
         (data.map((item, index) => {
           return (<View className='mine_item_con' key={index}>
