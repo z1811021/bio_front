@@ -9,6 +9,7 @@ import sleep from '../../utils/sleep'
 import { apiDomain } from '../../../config/buildConfig'
 import './index.scss'
 
+const OSS_URL = 'https://scan-bucket.oss-cn-chengdu.aliyuncs.com/scan/'
 export default function Index() {
     const [order, setOrder] = useState('')
     const [files, setFiles] = useState([])
@@ -74,8 +75,8 @@ export default function Index() {
     }
     function preview(index) {
       Taro.previewImage({
-        current: info[index].name, // 当前显示图片的http链接
-        urls: [`${info[index].name}`] // 需要预览的图片http链接列表
+        current: OSS_URL + info[index].name, // 当前显示图片的http链接
+        urls: [`${OSS_URL}${info[index].name}`] // 需要预览的图片http链接列表
       })
     }
     function onFail(mes) {
@@ -134,7 +135,7 @@ export default function Index() {
         if(res?.data?.code === 0) {
             setLoading(false)
             Taro.atMessage({
-              'message': '提交成功',
+              'message': '保存成功',
               'type': 'success',
             })
             setInfo(res?.data?.data?.scanItemPic || {})
@@ -209,7 +210,7 @@ export default function Index() {
           }
         })
         if(JSON.parse(uplaodRes.data).code == 0) {
-          return 'https://scan-bucket.oss-cn-chengdu.aliyuncs.com/scan/' + imageName
+          return imageName
         } else {
           throw new Error(400);
         }
@@ -259,7 +260,7 @@ export default function Index() {
                   <View className='add_order_list_item_con' key={index}>
                     <View className='add_order_list_space'></View>
                     <View className='add_order_list_item'>
-                      <Image onClick={() => preview(index)} src={item.name} style={{width: '138px', height: '123px'}} />
+                      <Image onClick={() => preview(index)} src={`${OSS_URL}${item.name}`} style={{width: '138px', height: '123px'}} />
                       <View className='add_order_list_title_con'>
                         <View>{dayjs.unix(item.timestamp).format('YYYY-MM-DD hh:mm:ss')}</View>
                         <View><Text className='add_order_list_title'>长直径: <Text className='add_order_list_title_content'>{item.length}</Text></Text></View>
