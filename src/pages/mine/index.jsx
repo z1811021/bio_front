@@ -54,15 +54,15 @@ export default function Index() {
   }
 
   const scrollToLower =() => {
-		handleSearch(pageIndex)
+		handleSearch(pageIndex, false)
 	}
-  const search = () => handleSearch(pageIndex);
-  async function handleSearch(index){
+  const search = () => handleSearch(pageIndex, true);
+  async function handleSearch(index, isNewSearch){
     const params = {
       scanNum: value,
       startDate: dateSel,
       endDate: dateSelEnd,
-      pageNum: index,
+      pageNum: isNewSearch ? 1 : index,
       pageSize: 10
     }
     const res = await axios.get(`${apiDomain}/scan`,{
@@ -72,8 +72,8 @@ export default function Index() {
       }});
     console.log('🚀 ~ file: index.jsx ~ line 58 ~ search ~ res', res)
     if(res?.data?.code === 0 && res?.data?.data?.scanItem.length !==0) {
-      setData( prev => ([...prev, ...res?.data?.data?.scanItem]))
-      setPageIndex( prev => (prev+ 1))
+      isNewSearch ? setData(res?.data?.data?.scanItem) : setData( prev => ([...prev, ...res?.data?.data?.scanItem]))
+      isNewSearch ? setPageIndex(1) : setPageIndex( prev => (prev+ 1))
     }
 
   }
