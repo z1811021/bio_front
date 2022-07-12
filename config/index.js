@@ -1,11 +1,23 @@
 /*
  * @Author: gongxi33
  * @Date: 2022-04-30 10:38:17
- * @LastEditTime: 2022-04-30 13:53:58
+ * @LastEditTime: 2022-07-12 21:51:51
  * @LastEditors: gongxi33
  * @Description:
  * @FilePath: /bio/config/index.js
  */
+
+const CIPluginOpt = {
+  // 微信小程序
+  weapp: {
+    appid: "wx80e86aff9b3098b6",
+    privateKeyPath: "./private.wx105c0ec0ba14780c.key"
+  },
+  // 版本号
+  version: "1.0.0",
+  // 版本发布描述
+  desc: "版本描述"
+}
 const config = {
   projectName: 'bio',
   date: '2022-4-30',
@@ -17,7 +29,7 @@ const config = {
   },
   sourceRoot: 'src',
   outputRoot: 'dist',
-  plugins: [],
+  plugins: [ ["@tarojs/plugin-mini-ci", CIPluginOpt]],
   defineConstants: {
   },
   copy: {

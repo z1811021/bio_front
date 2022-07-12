@@ -2,7 +2,7 @@
     "miniprogramRoot": "dist/",
     "projectname": "bio",
     "description": "Project configuration file, more information: https://developers.weixin.qq.com/miniprogram/dev/devtools/projectconfig.html",
-    "appid": "wx105c0ec0ba14780c",
+    "appid": "wx80e86aff9b3098b6",
     "setting": {
         "urlCheck": true,
         "es6": false,
@@ -40,7 +40,8 @@
         "showES6CompileOption": false,
         "useCompilerPlugins": false,
         "minifyWXML": true,
-        "useStaticServer": true
+        "useStaticServer": true,
+        "ignoreUploadUnusedFiles": true
     },
     "compileType": "miniprogram",
     "condition": {},

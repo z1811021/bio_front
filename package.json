@@ -26,7 +26,8 @@
     "dev:rn": "npm run build:rn -- --watch",
     "dev:qq": "npm run build:qq -- --watch",
     "dev:jd": "npm run build:jd -- --watch",
-    "dev:quickapp": "npm run build:quickapp -- --watch"
+    "dev:quickapp": "npm run build:quickapp -- --watch",
+    "build:weapp:preview": "taro build --type weapp --preview"
   },
   "browserslist": [
     "last 3 versions",
@@ -37,11 +38,14 @@
   "dependencies": {
     "@babel/runtime": "^7.7.7",
     "@tarojs/components": "3.4.8",
-    "@tarojs/plugin-framework-react": "3.4.8",
+    "@tarojs/plugin-framework-react": "^3.4.12",
+    "@tarojs/plugin-mini-ci": "^3.4.12",
+    "@tarojs/plugin-platform-weapp": "^3.4.12",
     "@tarojs/react": "3.4.8",
     "@tarojs/runtime": "3.4.8",
     "@tarojs/taro": "3.4.8",
     "dayjs": "^1.11.2",
+    "has-flag": "^5.0.1",
     "js-cookie": "^3.0.1",
     "lodash": "^4.17.21",
     "react": "^17.0.0",
