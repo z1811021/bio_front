@@ -1,23 +1,24 @@
-import { View, Text, Button, Image } from '@tarojs/components'
+import { View, Text, Button, Image, Picker } from '@tarojs/components'
 import Taro from '@tarojs/taro'
 import * as dayjs from 'dayjs'
 import { axios } from 'taro-axios'
 import compact from 'lodash/compact'
-import { AtImagePicker , AtInput, AtMessage} from 'taro-ui'
+import { AtImagePicker , AtInput, AtMessage, AtList, AtListItem} from 'taro-ui'
 import  { Fragment, useState, useEffect} from 'react'
 import sleep from '../../utils/sleep'
 import { apiDomain } from '../../../config/buildConfig'
 import './index.scss'
 
-const OSS_URL = 'https://scan-bucket.oss-cn-chengdu.aliyuncs.com/scan/'
+const OSS_URL = 'https://coen-scan.oss-cn-chengdu.aliyuncs.com/scan/'
 export default function Index() {
-    const [order, setOrder] = useState('')
+    const [order, setOrder] = useState('无红晕和硬结')
     const [files, setFiles] = useState([])
     const [token, setToken] = useState('')
-    const [info, setInfo] = useState([])
+    const [info, setInfo] = useState({})
     const [scanOrder, setScanOrder] = useState('')
     const [userId, setUserId] = useState('')
     const [isLoading, setLoading] = useState(false)
+    const [selector, setSelector] = useState(['无红晕和硬结', '红晕或硬结'])
     useEffect(()=>{
       Taro.getBackgroundFetchToken({
         success: res => {
@@ -55,15 +56,17 @@ export default function Index() {
       })
     }
     function onChangeImage(val) {
-      if(val.length > 3) {
-        Taro.atMessage({
-          'message': '不能上传超过三张图片',
-          'type': 'warning',
-        })
-        return
+      if (order === "无红晕和硬结") {
+        if (val.length > 1) {
+          Taro.atMessage({
+            message: "无红晕和硬结只能上传一张照片",
+            type: "warning",
+          });
+          return;
+        }
       }
-      setFiles(val)
-      console.log('🚀 ~ file: index.jsx ~ line 31 ~ onChangeImage ~ val', val)
+      setFiles(val);
+      console.log("🚀 ~ file: index.jsx ~ line 31 ~ onChangeImage ~ val", val);
     }
     function onImageClick(index, file) {
       Taro.previewImage({
@@ -75,18 +78,18 @@ export default function Index() {
     }
     function preview(index) {
       Taro.previewImage({
-        current: OSS_URL + info[index].name, // 当前显示图片的http链接
-        urls: [`${OSS_URL}${info[index].name}`] // 需要预览的图片http链接列表
+        current: files[index].url, // 当前显示图片的http链接
+        urls: [`${files[index].url}`] // 需要预览的图片http链接列表
       })
     }
     function onFail(mes) {
     console.log('🚀 ~ file: index.jsx ~ line 29 ~ onFail ~ mes', mes)
     }
     function backTest() {
-      setInfo([])
+      setInfo({})
     }
     async function submit() {
-      const res = await axios.put(`${apiDomain}/scan/${scanOrder}`, {}, {
+      const res = await axios.put(`${apiDomain}/scan/${scanOrder}`, info , {
         withCredentials: false, // 跨域我们暂时 false
         headers: {
           authorization: token
@@ -121,11 +124,11 @@ export default function Index() {
         const statusesPromise = Promise.allSettled(uploadTimeArr);
         const statuses = await statusesPromise;
 
-        const submitImgArr = statuses.map((item, index) => {
+        const submitImgArr = statuses.map((item) => {
           return item.status === 'fulfilled' ? item.value : ''
         })
         // submit info
-        const res = await axios.post(`${apiDomain}/scan`, {scanNum: order, pics: compact(submitImgArr)}, {
+        const res = await axios.post(`${apiDomain}/scan`, {skinType: order === '无红晕和硬结' ? 1 : 2, pics: compact(submitImgArr)}, {
           withCredentials: false, // 跨域我们暂时 false
           headers: {
             'Content-Type': 'application/json',
@@ -138,8 +141,8 @@ export default function Index() {
               'message': '保存成功',
               'type': 'success',
             })
-            setInfo(res?.data?.data?.scanItemPic || {})
-            setScanOrder(res?.data?.data?.scanId || '')
+            setInfo(res?.data?.data || {})
+            setScanOrder(res?.data?.data?.scanItemId || '')
             setUserId(res?.data?.data?.userId || '')
         } else {
           setLoading(false)
@@ -150,7 +153,7 @@ export default function Index() {
         }
       } else {
         Taro.atMessage({
-          'message': '请上传照片和录入被试编号',
+          'message': '请上传照片',
           'type': 'warn',
         })
       }
@@ -218,17 +221,17 @@ export default function Index() {
           throw new Error(400);
         }
     }
-    function changeVal(val){
-      console.log('🚀 ~ file: index.jsx ~ line 98 ~ changeVal ~ val', val)
-      setOrder(val)
+    function changeVal(e){
+      console.log('🚀 ~ file: index.jsx ~ line 98 ~ changeVal ~ val', e)
+      setOrder(selector[e.detail.value])
     }
     return (
       <View className='add'>
         <AtMessage />
-        {info.length === 0 ? (
+        {Object.keys(info).length === 0 ? (
           <Fragment>
             <View className='add_order'>
-            <AtInput
+            {/* <AtInput
               title='被试编号'
               type='text'
               placeholder='请通过相机扫描'
@@ -236,10 +239,18 @@ export default function Index() {
               onChange={val => changeVal(val)}
               className='add_order_input'
             />
-            <Button className='photo_button' onClick={takePhoto}>拍照识别</Button>
+            <Button className='photo_button' onClick={takePhoto}>拍照识别</Button> */}
+            <Picker mode='selector' range={selector} onChange={val => changeVal(val)}>
+              <AtList>
+                <AtListItem
+                  title='请选择症状'
+                  extraText={order}
+                />
+              </AtList>
+            </Picker>
           </View>
           <AtImagePicker
-            length={3}
+            length={4}
             multiple
             files={files}
             onChange={val => onChangeImage(val)}
@@ -250,25 +261,31 @@ export default function Index() {
         </Fragment>
         ) : (
           <View className='add_order_list'>
-            <Text className='add_order_list_title'>被试编号: <Text className='add_order_list_title_num'>{order}</Text></Text>
+            <View className='add_order_list_title'>被试编号: <Text className='add_order_list_title_num'>{scanOrder}</Text></View>
+            <View className='add_order_list_title'>用户ID号: <Text className='add_order_list_title_doctor'>{userId}</Text></View>
             <View className='add_order_list_space'></View>
-            <Text className='add_order_list_title'>医生编号: <Text className='add_order_list_title_doctor'>{userId}</Text></Text>
-            <View className='add_order_list_space'></View>
+            <View className='add_order_list_title'>姓名编号: <Text className='add_order_list_title_doctor'>{info.name}</Text></View>
+            <View className='add_order_list_title'>手臂类型: <Text className='add_order_list_title_doctor'>{info.handType === 0 ? '未知' : info.handType === 1 ? '左手' : '右手'}</Text></View>
+            <View className='add_order_list_title'>入组编号: <Text className='add_order_list_title_doctor'>{info.entryGroupNum}</Text></View>
+            <View className='add_order_list_title'>药物编号: <Text className='add_order_list_title_doctor'>{info.drugNum}</Text></View>
+            <View className='add_order_list_title'>注射日期: <Text className='add_order_list_title_doctor'>{info.injectionDate}</Text></View>
+            <View className='add_order_list_title'>随访周期: <Text className='add_order_list_title_doctor'>{info.followUpPeriod}</Text></View>
             {
-              info.map((item, index) => {
+              order !== "无红晕和硬结" &&
+                (
+                  <>
+                  <View className='add_order_list_space'></View>
+                  <View className='add_order_list_title'>皮肤红晕横径: <Text className='add_order_list_title_doctor'>{info.skinBlushHorizontalDiameter}</Text></View>
+                  <View className='add_order_list_title'>皮肤红晕纵径: <Text className='add_order_list_title_doctor'>{info.skinBlushVerticalDiameter}</Text></View>
+                  <View className='add_order_list_title'>皮肤硬结横径: <Text className='add_order_list_title_doctor'>{info.skinCallusesHorizontalDiameter}</Text></View>
+                  <View className='add_order_list_title'>皮肤硬结纵径: <Text className='add_order_list_title_doctor'>{info.skinCallusesVerticalDiameter}</Text></View>
+                  </>
+                )
+              }
+              {
+              files.map((item, index) => {
                 return (
-                  <View className='add_order_list_item_con' key={index}>
-                    <View className='add_order_list_space'></View>
-                    <View className='add_order_list_item'>
-                      <Image onClick={() => preview(index)} src={`${OSS_URL}${item.name}`} style={{width: '138px', height: '123px'}} />
-                      <View className='add_order_list_title_con'>
-                        <View>{dayjs.unix(item.timestamp).format('YYYY-MM-DD hh:mm:ss')}</View>
-                        <View><Text className='add_order_list_title'>长直径: <Text className='add_order_list_title_content'>{item.length}</Text></Text></View>
-                        <View><Text className='add_order_list_title'>短直径: <Text className='add_order_list_title_content'>{item.width}</Text></Text></View>
-                        <View><Text className='add_order_list_title'>面积: <Text className='add_order_list_title_content'>{item.area}</Text></Text></View>
-                      </View>
-                    </View>
-                  </View>
+                  <Image key={index} onClick={() => preview(index)} src={item.url} style={{width: '138px', height: '123px', margin: '10px'}} />
                 )
               })
             }

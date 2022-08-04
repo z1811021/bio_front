@@ -2,26 +2,27 @@
   width: 100vw;
   margin: 0 auto;
   .add_order {
-    .at-input--disabled {
-      opacity: 1;
-    }
-    font-size: 48px;
-    margin-top: 24px;
-    text-align: center;
-    margin-bottom: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    .add_order_input {
-      width: 60vw;
-    }
-    .photo_button {
-      font-size: 24px;
-      width: 24vw;
-      background: #07c160;
-      color: #fff;
-      border: 1px solid #07c160;
-    }
+    width: 100%;
+    // .at-input--disabled {
+    //   opacity: 1;
+    // }
+    // font-size: 48px;
+    // margin-top: 24px;
+    // text-align: center;
+    // margin-bottom: 48px;
+    // display: flex;
+    // align-items: center;
+    // justify-content: space-between;
+    // .add_order_input {
+    //   width: 60vw;
+    // }
+    // .photo_button {
+    //   font-size: 24px;
+    //   width: 24vw;
+    //   background: #07c160;
+    //   color: #fff;
+    //   border: 1px solid #07c160;
+    // }
   }
   .add_submit {
     color: #fff;
@@ -67,7 +68,8 @@
       justify-content: space-around;
       width: 80vw;
       margin: 0 auto;
-      margin-top: 72px;
+      margin-top: 32px;
+      margin-bottom: 20px;
       .add_order_list_button_back {
         color: #fff;
         border: 1px solid #6190e8;

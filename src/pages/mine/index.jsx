@@ -9,7 +9,7 @@ import "./index.scss";
 export default function Index() {
   const [dateSel, setDateSel] = useState("");
   const [dateSelEnd, setDateSelEnd] = useState("");
-  const [value, setVal] = useState('')
+  // const [value, setVal] = useState('')
   const [data, setData] = useState([])
   const [token, setToken] = useState('')
   const [pageIndex, setPageIndex] = useState(1);
@@ -44,10 +44,10 @@ export default function Index() {
     console.log("🚀 ~ file: index.jsx ~ line 10 ~ onDateChange ~ val", val);
     setDateSel(val.detail.value);
   }
-  function handleChangeVal(val) {
-    console.log('🚀 ~ file: index.jsx ~ line 15 ~ handleChangeVal ~ val', val)
-    setVal(val)
-  }
+  // function handleChangeVal(val) {
+  //   console.log('🚀 ~ file: index.jsx ~ line 15 ~ handleChangeVal ~ val', val)
+  //   setVal(val)
+  // }
   function onDateChangeEnd(val) {
     console.log("🚀 ~ file: index.jsx ~ line 10 ~ onDateChange ~ val", val);
     setDateSelEnd(val.detail.value);
@@ -59,7 +59,7 @@ export default function Index() {
   const search = () => handleSearch(pageIndex, true);
   async function handleSearch(index, isNewSearch){
     const params = {
-      scanNum: value,
+      // scanNum: value,
       startDate: dateSel,
       endDate: dateSelEnd,
       pageNum: isNewSearch ? 1 : index,
@@ -71,9 +71,9 @@ export default function Index() {
         authorization: token
       }});
     console.log('🚀 ~ file: index.jsx ~ line 58 ~ search ~ res', res)
-    if(res?.data?.code === 0 && res?.data?.data?.scanItem.length !==0) {
-      isNewSearch ? setData(res?.data?.data?.scanItem) : setData( prev => ([...prev, ...res?.data?.data?.scanItem]))
-      isNewSearch ? setPageIndex(1) : setPageIndex( prev => (prev+ 1))
+    if(res?.data?.code === 0 && res?.data?.data?.list.length !==0) {
+      isNewSearch ? setData(res?.data?.data?.list) : setData( prev => ([...prev, ...res?.data?.data?.list]))
+      isNewSearch ? setPageIndex(2) : setPageIndex( prev => (prev+ 1))
     }
 
   }
@@ -81,14 +81,14 @@ export default function Index() {
     <View className='mine'>
       <AtMessage />
       <AtForm>
-      <AtInput
+      {/* <AtInput
         name='scanId'
         title='被试编号'
         type='text'
         placeholder='被试编号'
         value={value}
         onChange={handleChangeVal}
-      />
+      /> */}
       <View className='mine_date_start'>
         <Picker mode='date' onChange={onDateChange}>
           <AtList>
@@ -110,11 +110,21 @@ export default function Index() {
         {data &&
         (data.map((item, index) => {
           return (<View className='mine_item_con' key={index}>
-            <View>被试编号: {item.scanId}</View>
-            <View>检测时间: {item.scanTime}</View>
-            {item.scanItemPic.map((item2, index2) => {
-              return <View key={index2}>长直径: {item2.length} 短直径: {item2.width} 面积: {item2.area}</View>
-            })}
+            <View >扫描的编号: <Text>{item?.scanItemId || ''}</Text></View>
+            <View >用户名: <Text>{item?.username || ''}</Text></View>
+            <View >项目名称: <Text>{item?.projectName || ''}</Text></View>
+            <View >项目期数: <Text>{item?.phase || ''}</Text></View>
+            <View >被试人员编号: <Text>{item?.testeeName || ''}</Text></View>
+            <View >检测时间: <Text>{item?.scanTime || ''}</Text></View>
+            <View >手臂类型: <Text>{item.handType === 0 ? '未知' : item.handType === 1 ? '左手' : '右手'}</Text></View>
+            <View >入组编号: <Text>{item?.entryGroupNum || ''}</Text></View>
+            <View >药物编号: <Text>{item?.drugNum || ''}</Text></View>
+            <View >注射日期: <Text>{item?.injectionDate || ''}</Text></View>
+            <View >随访周期: <Text>{item?.followUpPeriod || ''}</Text></View>
+            <View >皮肤红晕横径: <Text>{item?.skinBlushHorizontalDiameter}</Text></View>
+            <View >皮肤红晕纵径: <Text>{item?.skinBlushVerticalDiameter}</Text></View>
+            <View >皮肤硬结横径: <Text>{item?.skinCallusesHorizontalDiameter}</Text></View>
+            <View >皮肤硬结纵径: <Text>{item?.skinCallusesVerticalDiameter}</Text></View>
           </View>)
         }))}
       </ScrollView>
