@@ -65,8 +65,8 @@
     }
     .add_order_list_button{
       display: flex;
-      justify-content: space-around;
-      width: 80vw;
+      justify-content: space-between;
+      width: 90vw;
       margin: 0 auto;
       margin-top: 32px;
       margin-bottom: 20px;
@@ -74,16 +74,21 @@
         color: #fff;
         border: 1px solid #6190e8;
         background: #6190e8;
-        font-size: 36px;
+        font-size: 32px;
         height: 100px;
         line-height:100px;
-        width: 30vw;
+        width: 28vw;
       }
       .add_order_list_button_submit {
         @extend .add_order_list_button_back;
         border: 1px solid #07c160;;
         background: #07c160;;
 
+      }
+      .add_order_list_button_modify{
+        @extend .add_order_list_button_back;
+        border: 1px solid #ffca3e;;
+        background: #ffca3e;;
       }
     }
 

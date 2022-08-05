@@ -3,7 +3,7 @@ import Taro from '@tarojs/taro'
 import * as dayjs from 'dayjs'
 import { axios } from 'taro-axios'
 import compact from 'lodash/compact'
-import { AtImagePicker , AtInput, AtMessage, AtList, AtListItem} from 'taro-ui'
+import { AtImagePicker , AtInput, AtMessage, AtList, AtListItem, AtForm} from 'taro-ui'
 import  { Fragment, useState, useEffect} from 'react'
 import sleep from '../../utils/sleep'
 import { apiDomain } from '../../../config/buildConfig'
@@ -19,6 +19,7 @@ export default function Index() {
     const [userId, setUserId] = useState('')
     const [isLoading, setLoading] = useState(false)
     const [selector, setSelector] = useState(['无红晕和硬结', '红晕或硬结'])
+    const [modify, setIsModify] = useState(false)
     useEffect(()=>{
       Taro.getBackgroundFetchToken({
         success: res => {
@@ -86,6 +87,7 @@ export default function Index() {
     console.log('🚀 ~ file: index.jsx ~ line 29 ~ onFail ~ mes', mes)
     }
     function backTest() {
+      setIsModify(false)
       setInfo({})
     }
     async function submit() {
@@ -111,6 +113,9 @@ export default function Index() {
         })
       }
 
+    }
+    function modifyTest() {
+      setIsModify(true)
     }
     async function getInfo() {
       if(order && files.length > 0) {
@@ -225,6 +230,28 @@ export default function Index() {
       console.log('🚀 ~ file: index.jsx ~ line 98 ~ changeVal ~ val', e)
       setOrder(selector[e.detail.value])
     }
+    function changeForm(val, e){
+      // console.log('🚀 ~ file: index.jsx ~ line 234 ~ changeForm ~ val', val)
+      const key = e.mpEvent.target.id
+      setInfo(Object.assign({}, info, {[key]: val}))
+    }
+    function blurForm(val, e) {
+      const key = e.mpEvent.target.id
+      if(key === 'handType') {
+        if(val !== '左手' && val !== '右手') {
+          Taro.atMessage({
+            'message': `手臂类型只能是 '左手' 或 '右手' `,
+            'type': 'error',
+          })
+        }
+      }
+    }
+    function onDateChange(e) {
+      console.log('🚀 ~ file: index.jsx ~ line 250 ~ onDateChange ~ e', e)
+      const val = e.detail.value
+      setInfo(Object.assign({}, info, {injectionDate: val}))
+
+    }
     return (
       <View className='add'>
         <AtMessage />
@@ -264,12 +291,62 @@ export default function Index() {
             <View className='add_order_list_title'>被试编号: <Text className='add_order_list_title_num'>{scanOrder}</Text></View>
             <View className='add_order_list_title'>用户ID号: <Text className='add_order_list_title_doctor'>{userId}</Text></View>
             <View className='add_order_list_space'></View>
-            <View className='add_order_list_title'>姓名编号: <Text className='add_order_list_title_doctor'>{info.name}</Text></View>
-            <View className='add_order_list_title'>手臂类型: <Text className='add_order_list_title_doctor'>{info.handType === 0 ? '未知' : info.handType === 1 ? '左手' : '右手'}</Text></View>
-            <View className='add_order_list_title'>入组编号: <Text className='add_order_list_title_doctor'>{info.entryGroupNum}</Text></View>
-            <View className='add_order_list_title'>药物编号: <Text className='add_order_list_title_doctor'>{info.drugNum}</Text></View>
-            <View className='add_order_list_title'>注射日期: <Text className='add_order_list_title_doctor'>{info.injectionDate}</Text></View>
-            <View className='add_order_list_title'>随访周期: <Text className='add_order_list_title_doctor'>{info.followUpPeriod}</Text></View>
+            {modify
+            ?
+            (<View>
+              <AtForm>
+                <AtInput
+                  name='name'
+                  title='姓名编号'
+                  type='text'
+                  value={info.name}
+                  onChange={changeForm}
+                />
+                <AtInput
+                  name='handType'
+                  title='手臂类型'
+                  type='text'
+                  value={info.handType === 0 ? '未知' : info.handType === 1 ? '左手' : info.handType === 1 ? '右手' : info.handType}
+                  onChange={changeForm}
+                  onBlur={blurForm}
+                />
+                <AtInput
+                  name='entryGroupNum'
+                  title='入组编号'
+                  type='text'
+                  value={info.entryGroupNum}
+                  onChange={changeForm}
+                />
+                <AtInput
+                  name='drugNum'
+                  title='药物编号'
+                  type='text'
+                  value={info.drugNum}
+                  onChange={changeForm}
+                />
+                <Picker mode='date' onChange={onDateChange}>
+                  <AtList>
+                    <AtListItem title='注射日期' extraText={info.injectionDate} />
+                  </AtList>
+                </Picker>
+                <AtInput
+                  name='followUpPeriod'
+                  title='随访周期'
+                  type='text'
+                  value={info.followUpPeriod}
+                  onChange={changeForm}
+                />
+              </AtForm>
+            </View>)
+            :
+            (<View>
+              <View className='add_order_list_title'>姓名编号: <Text className='add_order_list_title_doctor'>{info.name}</Text></View>
+              <View className='add_order_list_title'>手臂类型: <Text className='add_order_list_title_doctor'>{info.handType === 0 ? '未知' : info.handType === 1 ? '左手' : '右手'}</Text></View>
+              <View className='add_order_list_title'>入组编号: <Text className='add_order_list_title_doctor'>{info.entryGroupNum}</Text></View>
+              <View className='add_order_list_title'>药物编号: <Text className='add_order_list_title_doctor'>{info.drugNum}</Text></View>
+              <View className='add_order_list_title'>注射日期: <Text className='add_order_list_title_doctor'>{info.injectionDate}</Text></View>
+              <View className='add_order_list_title'>随访周期: <Text className='add_order_list_title_doctor'>{info.followUpPeriod}</Text></View>
+            </View>)}
             {
               order !== "无红晕和硬结" &&
                 (
@@ -291,6 +368,7 @@ export default function Index() {
             }
             <View className='add_order_list_button'>
               <Button className='add_order_list_button_back' onClick={backTest}>返回重测</Button>
+              { !modify && <Button className='add_order_list_button_modify' onClick={modifyTest}>修改</Button> }
               <Button className='add_order_list_button_submit' onClick={submit}>确认</Button>
             </View>
           </View>
