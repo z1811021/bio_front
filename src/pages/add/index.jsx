@@ -11,6 +11,7 @@ import './index.scss'
 
 const OSS_URL = 'https://coen-scan.oss-cn-chengdu.aliyuncs.com/scan/'
 export default function Index() {
+    const diameterArr = ['skinBlushHorizontalDiameter', 'skinBlushVerticalDiameter', 'skinCallusesHorizontalDiameter', 'skinCallusesVerticalDiameter']
     const [order, setOrder] = useState('无红晕和硬结')
     const [files, setFiles] = useState([])
     const [token, setToken] = useState('')
@@ -91,28 +92,45 @@ export default function Index() {
       setInfo({})
     }
     async function submit() {
-      const res = await axios.put(`${apiDomain}/scan/${scanOrder}`, info , {
-        withCredentials: false, // 跨域我们暂时 false
-        headers: {
-          authorization: token
-        }});
-      console.log('🚀 ~ file: index.jsx ~ line 93 ~ submit ~ res', res)
-      if(res?.data?.code === 0){
-        Taro.atMessage({
-          'message': '提交成功',
-          'type': 'success',
-        })
-        await sleep(2000);
-        Taro.navigateTo({
-          url: '/pages/home/index'
-        })
-      } else {
-        Taro.atMessage({
-          'message': '提交失败，请稍后重试',
-          'type': 'warning',
-        })
+      let isContinue = true
+      let newObj = {}
+      Object.entries(info).forEach(item => {
+        console.log('🚀 ~ file: index.jsx ~ line 96 ~ Object.entries ~ item', item)
+        // eslint-disable-next-line no-restricted-globals
+        if(diameterArr.includes(item[0]) && isNaN(Number(item[1]))){
+          Taro.atMessage({
+            'message': '请输入数字',
+            'type': 'error',
+          })
+          isContinue = false
+          return
+        } else if (diameterArr.includes(item[0])) {
+          newObj[item[0]] = Number([item[1]])
+        }
+      });
+      if(isContinue) {
+        const res = await axios.put(`${apiDomain}/scan/${scanOrder}`, Object.assign({}, info, {handType: info.handType === '右手' ? 2 : 1}, newObj) , {
+          withCredentials: false, // 跨域我们暂时 false
+          headers: {
+            authorization: token
+          }});
+        console.log('🚀 ~ file: index.jsx ~ line 93 ~ submit ~ res', res)
+        if(res?.data?.code === 0){
+          Taro.atMessage({
+            'message': '提交成功',
+            'type': 'success',
+          })
+          await sleep(2000);
+          Taro.navigateTo({
+            url: '/pages/home/index'
+          })
+        } else {
+          Taro.atMessage({
+            'message': '提交失败，请稍后重试',
+            'type': 'warning',
+          })
+        }
       }
-
     }
     function modifyTest() {
       setIsModify(true)
@@ -231,7 +249,7 @@ export default function Index() {
       setOrder(selector[e.detail.value])
     }
     function changeForm(val, e){
-      // console.log('🚀 ~ file: index.jsx ~ line 234 ~ changeForm ~ val', val)
+      console.log('🚀 ~ file: index.jsx ~ line 234 ~ changeForm ~ val', val)
       const key = e.mpEvent.target.id
       setInfo(Object.assign({}, info, {[key]: val}))
     }
@@ -244,6 +262,13 @@ export default function Index() {
             'type': 'error',
           })
         }
+      }
+      // eslint-disable-next-line no-restricted-globals
+      if(diameterArr.includes(key) && isNaN(val)) {
+        Taro.atMessage({
+          'message': `请输入数字`,
+          'type': 'error',
+        })
       }
     }
     function onDateChange(e) {
@@ -348,7 +373,50 @@ export default function Index() {
               <View className='add_order_list_title'>随访周期: <Text className='add_order_list_title_doctor'>{info.followUpPeriod}</Text></View>
             </View>)}
             {
-              order !== "无红晕和硬结" &&
+              order !== "无红晕和硬结" && modify &&
+                (
+                <AtForm>
+                  <AtInput
+                    name='skinBlushHorizontalDiameter'
+                    title='皮肤红晕横径'
+                    type='digit'
+                    value={info.skinBlushHorizontalDiameter}
+                    onChange={changeForm}
+                    className='add_order_width'
+                    onBlur={blurForm}
+                  />
+                  <AtInput
+                    name='skinBlushVerticalDiameter'
+                    title='皮肤红晕纵径'
+                    type='digit'
+                    value={info.skinBlushVerticalDiameter}
+                    onChange={changeForm}
+                    className='add_order_width'
+                    onBlur={blurForm}
+                  />
+                  <AtInput
+                    name='skinCallusesHorizontalDiameter'
+                    title='皮肤硬结横径'
+                    type='digit'
+                    value={info.skinCallusesHorizontalDiameter}
+                    onChange={changeForm}
+                    className='add_order_width'
+                    onBlur={blurForm}
+                  />
+                  <AtInput
+                    name='skinCallusesVerticalDiameter'
+                    title='皮肤硬结纵径'
+                    type='digit'
+                    value={info.skinCallusesVerticalDiameter}
+                    onChange={changeForm}
+                    className='add_order_width'
+                    onBlur={blurForm}
+                  />
+                </AtForm>
+                )
+              }
+              {
+              order !== "无红晕和硬结" && !modify &&
                 (
                   <>
                   <View className='add_order_list_space'></View>
@@ -371,6 +439,7 @@ export default function Index() {
               { !modify && <Button className='add_order_list_button_modify' onClick={modifyTest}>修改</Button> }
               <Button className='add_order_list_button_submit' onClick={submit}>确认</Button>
             </View>
+            <View className='add_order_list_space_height'></View>
           </View>
         )}
 
