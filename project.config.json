@@ -2,7 +2,7 @@
     "miniprogramRoot": "dist/",
     "projectname": "bio",
     "description": "Project configuration file, more information: https://developers.weixin.qq.com/miniprogram/dev/devtools/projectconfig.html",
-    "appid": "wx80e86aff9b3098b6",
+    "appid": "wxeea057526f46913c",
     "setting": {
         "urlCheck": true,
         "es6": false,

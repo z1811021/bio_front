@@ -1,7 +1,7 @@
 /*
  * @Author: gongxi33
  * @Date: 2022-04-30 10:38:17
- * @LastEditTime: 2022-07-12 21:51:51
+ * @LastEditTime: 2022-08-10 17:38:27
  * @LastEditors: gongxi33
  * @Description:
  * @FilePath: /bio/config/index.js
@@ -10,7 +10,7 @@
 const CIPluginOpt = {
   // 微信小程序
   weapp: {
-    appid: "wx80e86aff9b3098b6",
+    appid: "wxeea057526f46913c",
     privateKeyPath: "./private.wx105c0ec0ba14780c.key"
   },
   // 版本号
