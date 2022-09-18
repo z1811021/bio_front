@@ -48,7 +48,7 @@ export default function Index() {
                         message: "请重新登录",
                         type: "warning",
                     });
-                    Taro.navigateTo({
+                    Taro.reLaunch({
                         url: "/pages/index/index",
                     });
                 }
@@ -58,7 +58,7 @@ export default function Index() {
                     message: "请重新登录",
                     type: "warning",
                 });
-                Taro.navigateTo({
+                Taro.reLaunch({
                     url: "/pages/index/index",
                 });
             },
@@ -187,7 +187,7 @@ export default function Index() {
                     type: "success",
                 });
                 await sleep(2000);
-                Taro.navigateTo({
+                Taro.reLaunch({
                     url: "/pages/home/index",
                 });
             } else {
@@ -292,7 +292,7 @@ export default function Index() {
                 type: "warn",
             });
             await sleep(1500);
-            Taro.navigateTo({
+            Taro.reLaunch({
                 url: "/pages/index/index",
             });
             return;
