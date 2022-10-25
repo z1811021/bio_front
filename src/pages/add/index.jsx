@@ -83,9 +83,9 @@ export default function Index() {
                 return;
             }
         } else {
-            if (val.length > 4) {
+            if (val.length > 8) {
                 Taro.atMessage({
-                    message: "只能上传四张照片",
+                    message: "只能最多上传八张照片",
                     type: "warning",
                 });
                 return;
@@ -203,9 +203,9 @@ export default function Index() {
     }
     async function getInfo() {
         if (order && files.length > 0 && files2.length > 0) {
-            if (order === "红晕或硬结" && files.length !== 4) {
+            if (order === "红晕或硬结" && files.length < 4) {
                 Taro.atMessage({
-                    message: "请上传四张照片",
+                    message: "请上传至少四张照片",
                     type: "warning",
                 });
                 return;
@@ -401,7 +401,7 @@ export default function Index() {
                     <View className="add_order_name">
                         {order === "无红晕和硬结"
                             ? "请上传受试皮肤照片 (1 张)"
-                            : "请上传受试皮肤照片 (4 张)"}
+                            : "请上传受试皮肤照片 (至少 4 张)"}
                     </View>
                     <AtImagePicker
                         length={4}
