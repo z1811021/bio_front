@@ -442,7 +442,7 @@ export default function Index() {
                 </Fragment>
             ) : (
                 <View className="add_order_list">
-                    <View className="add_order_list_title">
+                    {/* <View className="add_order_list_title">
                         被试编号:
                         <Text className="add_order_list_title_num">
                             {scanOrder}
@@ -453,11 +453,11 @@ export default function Index() {
                         <Text className="add_order_list_title_doctor">
                             {userId}
                         </Text>
-                    </View>
+                    </View> */}
                     <View className="add_order_list_space"></View>
                     {modify ? (
                         <View>
-                            <AtForm>
+                            {/* <AtForm>
                                 <AtInput
                                     name="name"
                                     title="姓名编号"
@@ -510,11 +510,11 @@ export default function Index() {
                                     value={info.followUpPeriod}
                                     onChange={changeForm}
                                 />
-                            </AtForm>
+                            </AtForm> */}
                         </View>
                     ) : (
                         <View>
-                            <View className="add_order_list_title">
+                            {/* <View className="add_order_list_title">
                                 姓名编号:
                                 <Text className="add_order_list_title_doctor">
                                     {info.name}
@@ -553,7 +553,7 @@ export default function Index() {
                                 <Text className="add_order_list_title_doctor">
                                     {info.followUpPeriod}
                                 </Text>
-                            </View>
+                            </View> */}
                         </View>
                     )}
                     {/* {order !== "无红晕和硬结" && modify && (
