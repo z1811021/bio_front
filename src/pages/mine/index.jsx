@@ -1,5 +1,12 @@
 import { useState, useEffect } from "react";
-import { View, Text, Button, Picker, ScrollView } from "@tarojs/components";
+import {
+    View,
+    Text,
+    Button,
+    Picker,
+    ScrollView,
+    Image,
+} from "@tarojs/components";
 import { axios } from "taro-axios";
 import Taro from "@tarojs/taro";
 import { AtList, AtListItem, AtInput, AtMessage, AtForm } from "taro-ui";
@@ -55,7 +62,15 @@ export default function Index() {
         console.log("🚀 ~ file: index.jsx ~ line 10 ~ onDateChange ~ val", val);
         setDateSelEnd(val.detail.value);
     }
-
+    function imgClick(imgs, img) {
+        console.log("🚀 ~ file: index.jsx ~ line 66 ~ imgClick ~ imgs", imgs);
+        Taro.previewImage({
+            // 所有图片
+            urls: imgs,
+            // 当前图片
+            current: img,
+        });
+    }
     const scrollToLower = () => {
         handleSearch(pageIndex, false);
     };
@@ -123,7 +138,7 @@ export default function Index() {
                     scrollY
                     lowerThreshold={100}
                     onScrollToLower={scrollToLower}
-                    style={{ height: "125vw", marginTop: 10 }}
+                    style={{ height: "500px", marginTop: 10 }}
                     scrollWithAnimation
                 >
                     {data &&
@@ -146,15 +161,33 @@ export default function Index() {
                                         项目期数:
                                         <Text>{item?.phase || ""}</Text>
                                     </View>
-                                    <View>
+                                    {/* <View>
                                         被试人员编号:
                                         <Text>{item?.testeeName || ""}</Text>
-                                    </View>
+                                    </View> */}
                                     <View>
                                         检测时间:
                                         <Text>{item?.scanTime || ""}</Text>
                                     </View>
-                                    <View>
+                                    <View className="mine_item_pics_con">
+                                        {item?.pics instanceof Object &&
+                                            item?.pics.map((item2, index2) => (
+                                                <Image
+                                                    className="mine_item_pics"
+                                                    src={item2}
+                                                    key={index2}
+                                                    mode="widthFix"
+                                                    lazyLoad={true}
+                                                    onClick={() =>
+                                                        imgClick(
+                                                            item.pics,
+                                                            item2
+                                                        )
+                                                    }
+                                                />
+                                            ))}
+                                    </View>
+                                    {/* <View>
                                         手臂类型:
                                         <Text>
                                             {item.handType === 0
@@ -171,8 +204,8 @@ export default function Index() {
                                     <View>
                                         药物编号:
                                         <Text>{item?.drugNum || ""}</Text>
-                                    </View>
-                                    <View>
+                                    </View> */}
+                                    {/* <View>
                                         注射日期:
                                         <Text>{item?.injectionDate || ""}</Text>
                                     </View>
@@ -207,7 +240,7 @@ export default function Index() {
                                         <Text>
                                             {item?.skinCallusesVerticalDiameter}
                                         </Text>
-                                    </View>
+                                    </View> */}
                                 </View>
                             );
                         })}

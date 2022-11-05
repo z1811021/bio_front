@@ -660,14 +660,14 @@ export default function Index() {
                         >
                             返回重测
                         </Button>
-                        {!modify && (
+                        {/* {!modify && (
                             <Button
                                 className="add_order_list_button_modify"
                                 onClick={modifyTest}
                             >
                                 修改
                             </Button>
-                        )}
+                        )} */}
                         <Button
                             className="add_order_list_button_submit"
                             onClick={submit}
