@@ -400,8 +400,8 @@ export default function Index() {
                     </View>
                     <View className="add_order_name">
                         {order === "无红晕和硬结"
-                            ? "请上传受试皮肤照片 (1 张)"
-                            : "请上传受试皮肤照片 (至少 4 张)"}
+                            ? "请上传受试者皮肤照片 (1 张)"
+                            : "请上传受试者皮肤照片 (至少 4 张)"}
                     </View>
                     <AtImagePicker
                         length={4}
@@ -414,7 +414,7 @@ export default function Index() {
                         }
                     />
                     <View className="add_order_name">
-						请上传TST评估结果照片 (1 张)
+						请上传受试者TST评估结果照片 (1 张)
                     </View>
                     <AtImagePicker
                         length={4}
@@ -443,7 +443,7 @@ export default function Index() {
             ) : (
                 <View className="add_order_list">
                     {/* <View className="add_order_list_title">
-                        受试编号:
+                        受试者编号:
                         <Text className="add_order_list_title_num">
                             {scanOrder}
                         </Text>

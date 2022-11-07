@@ -103,9 +103,9 @@ export default function Index() {
             <AtForm>
                 {/* <AtInput
         name='scanId'
-        title='受试编号'
+        title='者编号'
         type='text'
-        placeholder='受试编号'
+        placeholder='受试者编号'
         value={value}
         onChange={handleChangeVal}
       /> */}

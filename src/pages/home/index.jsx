@@ -17,10 +17,10 @@ export default function Index() {
     return (
         <View className="home">
             <Button className="home_mine" onClick={gotoMine}>
-                我的受试
+                我的受试者
             </Button>
             <Button className="home_add" onClick={gotoAdd}>
-                新增受试 +
+                新增受试者 +
             </Button>
         </View>
     );
