@@ -414,7 +414,7 @@ export default function Index() {
                         }
                     />
                     <View className="add_order_name">
-                        请上传检测结果数据 (1 张)
+						请上传TST评估结果照片 (1 张)
                     </View>
                     <AtImagePicker
                         length={4}
