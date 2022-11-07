@@ -443,7 +443,7 @@ export default function Index() {
             ) : (
                 <View className="add_order_list">
                     {/* <View className="add_order_list_title">
-                        被试编号:
+                        受试编号:
                         <Text className="add_order_list_title_num">
                             {scanOrder}
                         </Text>
@@ -658,7 +658,7 @@ export default function Index() {
                             className="add_order_list_button_back"
                             onClick={backTest}
                         >
-                            返回重测
+                            返回修改
                         </Button>
                         {/* {!modify && (
                             <Button

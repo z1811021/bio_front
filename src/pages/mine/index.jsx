@@ -103,9 +103,9 @@ export default function Index() {
             <AtForm>
                 {/* <AtInput
         name='scanId'
-        title='被试编号'
+        title='受试编号'
         type='text'
-        placeholder='被试编号'
+        placeholder='受试编号'
         value={value}
         onChange={handleChangeVal}
       /> */}
@@ -162,7 +162,7 @@ export default function Index() {
                                         <Text>{item?.phase || ""}</Text>
                                     </View>
                                     {/* <View>
-                                        被试人员编号:
+                                        受试人员编号:
                                         <Text>{item?.testeeName || ""}</Text>
                                     </View> */}
                                     <View>
