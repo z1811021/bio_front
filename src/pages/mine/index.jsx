@@ -16,7 +16,7 @@ import "./index.scss";
 export default function Index() {
     const [dateSel, setDateSel] = useState("");
     const [dateSelEnd, setDateSelEnd] = useState("");
-    // const [value, setVal] = useState('')
+    const [value, setVal] = useState("");
     const [data, setData] = useState([]);
     const [token, setToken] = useState("");
     const [pageIndex, setPageIndex] = useState(1);
@@ -54,10 +54,9 @@ export default function Index() {
         console.log("🚀 ~ file: index.jsx ~ line 10 ~ onDateChange ~ val", val);
         setDateSel(val.detail.value);
     }
-    // function handleChangeVal(val) {
-    //   console.log('🚀 ~ file: index.jsx ~ line 15 ~ handleChangeVal ~ val', val)
-    //   setVal(val)
-    // }
+    function handleChangeVal(val) {
+        setVal(val);
+    }
     function onDateChangeEnd(val) {
         console.log("🚀 ~ file: index.jsx ~ line 10 ~ onDateChange ~ val", val);
         setDateSelEnd(val.detail.value);
@@ -77,7 +76,7 @@ export default function Index() {
     const search = () => handleSearch(pageIndex, true);
     async function handleSearch(index, isNewSearch) {
         const params = {
-            // scanNum: value,
+            testeeName: value,
             startDate: dateSel,
             endDate: dateSelEnd,
             pageNum: isNewSearch ? 1 : index,
@@ -95,20 +94,21 @@ export default function Index() {
                 ? setData(res?.data?.data?.list)
                 : setData((prev) => [...prev, ...res?.data?.data?.list]);
             isNewSearch ? setPageIndex(2) : setPageIndex((prev) => prev + 1);
+        } else {
+            Taro.showToast({
+                title: "没有更多的数据了",
+                icon: "error",
+                duration: 1000,
+            });
+            if (isNewSearch) {
+                setData(res?.data?.data?.list);
+            }
         }
     }
     return (
         <View className="mine">
             <AtMessage />
             <AtForm>
-                {/* <AtInput
-        name='scanId'
-        title='者编号'
-        type='text'
-        placeholder='受试者编号'
-        value={value}
-        onChange={handleChangeVal}
-      /> */}
                 <View className="mine_date_start">
                     <Picker mode="date" onChange={onDateChange}>
                         <AtList>
@@ -130,6 +130,16 @@ export default function Index() {
                     </Picker>
                 </View>
                 <View>
+                    <AtInput
+                        name="testeeName"
+                        title="受试者编号"
+                        type="text"
+                        placeholder="受试者编号"
+                        value={value}
+                        onChange={handleChangeVal}
+                    />
+                </View>
+                <View>
                     <Button onClick={search} className="mine_search_button">
                         搜索
                     </Button>
@@ -145,30 +155,58 @@ export default function Index() {
                         data.map((item, index) => {
                             return (
                                 <View className="mine_item_con" key={index}>
-                                    <View>
+                                    {/* <View>
                                         扫描的编号:
                                         <Text>{item?.scanItemId || ""}</Text>
-                                    </View>
-                                    <View>
-                                        用户名:
-                                        <Text>{item?.username || ""}</Text>
-                                    </View>
-                                    <View>
-                                        项目名称:
-                                        <Text>{item?.projectName || ""}</Text>
-                                    </View>
-                                    <View>
-                                        项目期数:
-                                        <Text>{item?.phase || ""}</Text>
-                                    </View>
-                                    {/* <View>
-                                        受试人员编号:
-                                        <Text>{item?.testeeName || ""}</Text>
                                     </View> */}
-                                    <View>
-                                        检测时间:
-                                        <Text>{item?.scanTime || ""}</Text>
-                                    </View>
+                                    {/* {item?.username && (
+                                        <View>
+                                            用户名:
+                                            <Text>{item?.username || ""}</Text>
+                                        </View>
+                                    )} */}
+                                    {item?.projectName && (
+                                        <View>
+                                            项目名称:
+                                            <Text>
+                                                {item?.projectName || ""}
+                                            </Text>
+                                        </View>
+                                    )}
+                                    {item?.phase && (
+                                        <View>
+                                            期数:
+                                            <Text>{item?.phase || ""}</Text>
+                                        </View>
+                                    )}
+                                    {item?.testeeName && (
+                                        <View>
+                                            受试者编号:
+                                            <Text>
+                                                {item?.testeeName || ""}
+                                            </Text>
+                                        </View>
+                                    )}
+                                    {item?.scanTime && (
+                                        <View>
+                                            提交时间:
+                                            <Text>{item?.scanTime || ""}</Text>
+                                        </View>
+                                    )}
+                                    {item?.injectionDate && (
+                                        <View>
+                                            注射时间:
+                                            <Text>
+                                                {item?.injectionDate || ""}
+                                            </Text>
+                                        </View>
+                                    )}
+                                    {item?.photoDate && (
+                                        <View>
+                                            拍照时间:
+                                            <Text>{item?.photoDate || ""}</Text>
+                                        </View>
+                                    )}
                                     <View className="mine_item_pics_con">
                                         {item?.pics instanceof Object &&
                                             item?.pics.map((item2, index2) => (
@@ -187,7 +225,7 @@ export default function Index() {
                                                 />
                                             ))}
                                     </View>
-                                    {/* <View>
+                                    <View>
                                         手臂类型:
                                         <Text>
                                             {item.handType === 0
@@ -197,50 +235,68 @@ export default function Index() {
                                                 : "右手"}
                                         </Text>
                                     </View>
-                                    <View>
-                                        入组编号:
-                                        <Text>{item?.entryGroupNum || ""}</Text>
-                                    </View>
-                                    <View>
-                                        药物编号:
-                                        <Text>{item?.drugNum || ""}</Text>
-                                    </View> */}
-                                    {/* <View>
-                                        注射日期:
-                                        <Text>{item?.injectionDate || ""}</Text>
-                                    </View>
-                                    <View>
-                                        随访周期:
-                                        <Text>
-                                            {item?.followUpPeriod || ""}
-                                        </Text>
-                                    </View>
-                                    <View>
-                                        皮肤红晕横径:
-                                        <Text>
-                                            {item?.skinBlushHorizontalDiameter}
-                                        </Text>
-                                    </View>
-                                    <View>
-                                        皮肤红晕纵径:
-                                        <Text>
-                                            {item?.skinBlushVerticalDiameter}
-                                        </Text>
-                                    </View>
-                                    <View>
-                                        皮肤硬结横径:
-                                        <Text>
-                                            {
-                                                item?.skinCallusesHorizontalDiameter
-                                            }
-                                        </Text>
-                                    </View>
-                                    <View>
-                                        皮肤硬结纵径:
-                                        <Text>
-                                            {item?.skinCallusesVerticalDiameter}
-                                        </Text>
-                                    </View> */}
+                                    {item?.entryGroupNum && (
+                                        <View>
+                                            入组编号:
+                                            <Text>
+                                                {item?.entryGroupNum || ""}
+                                            </Text>
+                                        </View>
+                                    )}
+                                    {item?.drugNum && (
+                                        <View>
+                                            药物编号:
+                                            <Text>{item?.drugNum || ""}</Text>
+                                        </View>
+                                    )}
+                                    {item?.followUpPeriod && (
+                                        <View>
+                                            随访周期:
+                                            <Text>
+                                                {item?.followUpPeriod || ""}
+                                            </Text>
+                                        </View>
+                                    )}
+                                    {item?.testeeName && (
+                                        <View>
+                                            皮肤红晕横径:
+                                            <Text>
+                                                {
+                                                    item?.skinBlushHorizontalDiameter
+                                                }
+                                            </Text>
+                                        </View>
+                                    )}
+                                    {item?.testeeName && (
+                                        <View>
+                                            皮肤红晕纵径:
+                                            <Text>
+                                                {
+                                                    item?.skinBlushVerticalDiameter
+                                                }
+                                            </Text>
+                                        </View>
+                                    )}
+                                    {item?.testeeName && (
+                                        <View>
+                                            皮肤硬结横径:
+                                            <Text>
+                                                {
+                                                    item?.skinCallusesHorizontalDiameter
+                                                }
+                                            </Text>
+                                        </View>
+                                    )}
+                                    {item?.testeeName && (
+                                        <View>
+                                            皮肤硬结纵径:
+                                            <Text>
+                                                {
+                                                    item?.skinCallusesVerticalDiameter
+                                                }
+                                            </Text>
+                                        </View>
+                                    )}
                                 </View>
                             );
                         })}
