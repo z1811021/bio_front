@@ -76,7 +76,7 @@ export default function Index() {
     const search = () => handleSearch(pageIndex, true);
     async function handleSearch(index, isNewSearch) {
         const params = {
-            testeeName: value,
+            entryGroupNum: value,
             startDate: dateSel,
             endDate: dateSelEnd,
             pageNum: isNewSearch ? 1 : index,
@@ -131,7 +131,7 @@ export default function Index() {
                 </View>
                 <View>
                     <AtInput
-                        name="testeeName"
+                        name="entryGroupNum"
                         title="受试者编号"
                         type="text"
                         placeholder="受试者编号"
@@ -181,7 +181,7 @@ export default function Index() {
                                     )}
                                     {item?.testeeName && (
                                         <View>
-                                            受试者编号:
+                                            姓名缩写:
                                             <Text>
                                                 {item?.testeeName || ""}
                                             </Text>
@@ -207,37 +207,19 @@ export default function Index() {
                                             <Text>{item?.photoDate || ""}</Text>
                                         </View>
                                     )}
-                                    <View className="mine_item_pics_con">
-                                        {item?.pics instanceof Object &&
-                                            item?.pics.map((item2, index2) => (
-                                                <Image
-                                                    className="mine_item_pics"
-                                                    src={item2}
-                                                    key={index2}
-                                                    mode="widthFix"
-                                                    lazyLoad={true}
-                                                    onClick={() =>
-                                                        imgClick(
-                                                            item.pics,
-                                                            item2
-                                                        )
-                                                    }
-                                                />
-                                            ))}
-                                    </View>
                                     <View>
                                         手臂类型:
                                         <Text>
                                             {item.handType === 0
                                                 ? "未知"
                                                 : item.handType === 1
-                                                ? "左手"
-                                                : "右手"}
+                                                ? "左前臂"
+                                                : "右前臂"}
                                         </Text>
                                     </View>
                                     {item?.entryGroupNum && (
                                         <View>
-                                            入组编号:
+                                            受试者编号:
                                             <Text>
                                                 {item?.entryGroupNum || ""}
                                             </Text>
@@ -297,6 +279,24 @@ export default function Index() {
                                             </Text>
                                         </View>
                                     )}
+                                    <View className="mine_item_pics_con">
+                                        {item?.pics instanceof Object &&
+                                            item?.pics.map((item2, index2) => (
+                                                <Image
+                                                    className="mine_item_pics"
+                                                    src={item2}
+                                                    key={index2}
+                                                    mode="widthFix"
+                                                    lazyLoad={true}
+                                                    onClick={() =>
+                                                        imgClick(
+                                                            item.pics,
+                                                            item2
+                                                        )
+                                                    }
+                                                />
+                                            ))}
+                                    </View>
                                 </View>
                             );
                         })}

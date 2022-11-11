@@ -170,7 +170,7 @@ export default function Index() {
                 Object.assign(
                     {},
                     info,
-                    { handType: info.handType === "右手" ? 2 : 1 },
+                    { handType: info.handType === "右前臂" ? 2 : 1 },
                     newObj
                 ),
                 {
@@ -359,9 +359,9 @@ export default function Index() {
     function blurForm(val, e) {
         const key = e.mpEvent.target.id;
         if (key === "handType") {
-            if (val !== "左手" && val !== "右手") {
+            if (val !== "左前臂" && val !== "右前臂") {
                 Taro.atMessage({
-                    message: `手臂类型只能是 '左手' 或 '右手' `,
+                    message: `手臂类型只能是 '左前臂' 或 '右前臂' `,
                     type: "error",
                 });
             }
@@ -473,9 +473,9 @@ export default function Index() {
                                         info.handType === 0
                                             ? "未知"
                                             : info.handType === 1
-                                            ? "左手"
+                                            ? "左前臂"
                                             : info.handType === 1
-                                            ? "右手"
+                                            ? "右前臂"
                                             : info.handType
                                     }
                                     onChange={changeForm}
@@ -526,8 +526,8 @@ export default function Index() {
                                     {info.handType === 0
                                         ? "未知"
                                         : info.handType === 1
-                                        ? "左手"
-                                        : "右手"}
+                                        ? "左前臂"
+                                        : "右前臂"}
                                 </Text>
                             </View>
                             <View className="add_order_list_title">
