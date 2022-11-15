@@ -11,7 +11,8 @@ export default defineAppConfig({
     'pages/index/index',
     'pages/home/index',
     'pages/add/index',
-    'pages/mine/index'
+    'pages/mine/index',
+	'pages/changePassword/index'
   ],
   window: {
     backgroundTextStyle: 'light',

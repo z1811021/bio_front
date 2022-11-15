@@ -1,6 +1,14 @@
 import { View, Image, Button } from "@tarojs/components";
 import Taro from "@tarojs/taro";
-import { AtForm, AtInput, AtMessage } from "taro-ui";
+import {
+    AtForm,
+    AtInput,
+    AtMessage,
+    AtModal,
+    AtModalContent,
+    AtModalHeader,
+    AtModalAction,
+} from "taro-ui";
 import { axios } from "taro-axios";
 import { useState, useEffect } from "react";
 import { apiDomain } from "../../../config/buildConfig";
@@ -17,11 +25,18 @@ export default function Index() {
     // })
     const [username, setUsername] = useState(null);
     const [password, setPassword] = useState(null);
+    const [isOpened, setIsOpened] = useState(false);
     function changeUserName(val) {
         setUsername(val);
     }
     function changePassword(val) {
         setPassword(val);
+    }
+    function handleConfirm() {
+        setIsOpened(false);
+        Taro.navigateTo({
+            url: "/pages/changePassword/index",
+        });
     }
     async function submit() {
         if (username && password) {
@@ -39,10 +54,14 @@ export default function Index() {
             );
             console.log("🚀 ~ file: index.jsx ~ line 29 ~ submit ~ res", res);
             if (res?.data?.code === 0 && res?.data?.data?.token) {
-                Taro.atMessage({
-                    message: "登陆成功",
-                    type: "success",
-                });
+                if (password === "scan123456") {
+                    setIsOpened(true);
+                } else {
+                    Taro.atMessage({
+                        message: "登陆成功",
+                        type: "success",
+                    });
+                }
                 console.log(
                     "🚀 ~ file: index.jsx ~ line 38 ~ submit ~ res?.data?.data?.token",
                     res?.data?.data?.token
@@ -51,9 +70,11 @@ export default function Index() {
                     token: res?.data?.data?.token,
                 });
                 Taro.setStorageSync("username", username);
-                Taro.reLaunch({
-                    url: "/pages/home/index",
-                });
+                if (password !== "scan123456") {
+                    Taro.reLaunch({
+                        url: "/pages/home/index",
+                    });
+                }
             } else if (res?.data?.code === 20103) {
                 Taro.atMessage({
                     message: res?.data?.msg || "用户不存在",
@@ -70,11 +91,21 @@ export default function Index() {
     return (
         <View className="index">
             <AtMessage />
+            <AtModal isOpened={isOpened}>
+                <AtModalHeader>请重置密码</AtModalHeader>
+                <AtModalContent>
+                    <View>监测到您正在使用初始密码</View>
+                    <View>请修改密码</View>
+                </AtModalContent>
+                <AtModalAction>
+                    <Button onClick={handleConfirm}>我知道了</Button>
+                </AtModalAction>
+            </AtModal>
             <Image
                 src="https://16913851.s21i.faiusr.com/4/ABUIABAEGAAgvNDZiwYoyYD_DTDcAzhr.png"
                 style="width:111px;height:27px"
             />
-            <View className="header">临床皮肤检测系统</View>
+            <View className="header">临床皮肤辅助检测系统</View>
             <AtForm onSubmit={submit}>
                 <AtInput
                     name="value"
